@@ -20,4 +20,3 @@ Working set of data is not included. It will be downloaded and unzipped when run
 For more information please visit: [Human Activity Recognition Using Smartphones Data Set ](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
 
 [Human Activity Recognition Using Smartphones](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
-Peer Assessment: Getting and Cleaning Data Course Project
