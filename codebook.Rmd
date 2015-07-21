@@ -1,1 +1,143 @@
+---
+title: "codebook.Rmd"
+author: "Milen Angelov"
+date: "July 21, 2015"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+## CodeBook
+###Peer Assessment: Getting and Cleaning Data Course Project
+This is code book that describes the variables, the data, and any transformations 
+or work that you performed to clean up the data called CodeBook.md
+
+Set default location of the data which will be used
+```{r}
+dataUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip";
+```
+
+If this script is run for the first time download and extract data
+```{r}
+if(!file.exists("./UCI HAR Dataset")){
+    # Download source, on Mac OS X method should be specified
+    download.file(dataUrl, destfile="./dataset.zip", method="curl");
+    
+    # Unzip it
+    unzip("./dataset.zip");
+}
+```
+
+Now define common functionality for reading, labeling and merging data from 
+train and test datafiles. These function cover the following requirement:
+1. Merges the training and the test sets for each set (activity, features and subject)
+2. Appropriately labels the data set with descriptive variable names.
+
+```{r}
+## Function to read train and test subject data, label the column names and 
+## return merged both dataset
+getSubjectData <- function(){
+    subject_train <- read.table("./UCI HAR Dataset/train/subject_train.txt",
+                                   header = FALSE);
+    
+    subject_test <- read.table("./UCI HAR Dataset/test/subject_test.txt",
+                                  header = FALSE);
+    
+    subject <- rbind(subject_train, subject_test);
+    
+    colnames(subject) <- c("Subject");
+    
+    subject;
+}
+```
+
+now activity (and requirement 3 - Uses descriptive activity names to name the activities in the data set):
+```{r}
+## Function to read, name activities, merge and set column names of activity data.
+
+getActivityData <- function(){
+    
+    activity_labels <- read.table("./UCI HAR Dataset/activity_labels.txt", 
+                                  header = FALSE);
+    
+    y_train <- read.table("./UCI HAR Dataset/train/y_train.txt",
+                         header = FALSE);
+    
+    y_test <- read.table("./UCI HAR Dataset/test/y_test.txt",
+                          header = FALSE);
+    
+    activities <- rbind(y_train, y_test);
+    
+    #Uses descriptive activity names to name the activities in the data set
+    activities$V1 <- factor(activities$V1, levels = activity_labels$V1);
+    
+    colnames(activities) <- c("Activity");
+    
+    activities;
+}
+```
+
+and finally features:
+```{r}
+## Function to read, name columns and return merged both train and test 
+## features data
+getFeaturesData <- function(){
+    X_train <- read.table("./UCI HAR Dataset/train/X_train.txt",
+                          header = FALSE);
+    X_test <- read.table("./UCI HAR Dataset/test/X_test.txt",
+                         header = FALSE);
+    
+    featuresColNames <- read.table("./UCI HAR Dataset/features.txt");
+    
+    features <- rbind(X_train, X_test);
+    colnames(features) <- featuresColNames$V2;
+    
+    features;
+    
+}
+```
+
+Now, lets merge features, subject and activity by columns:
+```{r}
+## Merges the training and the test sets to create one data set.
+mergedData <- cbind(getFeaturesData(),
+                    getSubjectData(),
+                    getActivityData());
+```
+  
+Let's check the structure and dimmension of the newly created dataset:
+```{r}
+str(mergedData);
+dim(mergedData);
+```
+
+Extracts only the measurements on the mean and standard deviation for each measurement.
+
+```{r}
+## Get only the columns which include 'mean' or 'std' in their names
+columnsWithMeasurement <- grep(".*mean.*|.*std.*", 
+                               names(mergedData), 
+                               ignore.case = TRUE);
+```
+
+Create a second, independent tidy data set with the average of each variable for each activity and each subject.
+```{r}
+cleanedData <- mergedData[,columnsWithMeasurement];
+```
+
+Let's see how the new dataset looks like:
+```{r}
+str(cleanedData);
+dim(cleanedData);
+```
+
+And create txt file to be uploaded containing dataset which was just created
+```{r}
+## File with the tidy data set created above to be uploaded as a txt file 
+## created with write.table() using row.name=FALSE
+write.table(cleanedData,
+            file = "tidydataset.txt",
+            sep = ",",
+            row.names = FALSE);
+```
 
