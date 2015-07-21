@@ -18,5 +18,3 @@ The purpose of this project is to demonstrate your ability to collect, work with
    
 Working set of data is not included. It will be downloaded and unzipped when run_analysis.R is executed for the first time. It could obtain from [Human Activity Recognition Using Smartphones](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip)  
 For more information please visit: [Human Activity Recognition Using Smartphones Data Set ](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
-
-[Human Activity Recognition Using Smartphones](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
