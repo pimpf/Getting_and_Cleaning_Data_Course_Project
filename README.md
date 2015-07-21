@@ -14,7 +14,9 @@ The purpose of this project is to demonstrate your ability to collect, work with
   
 2. codebook.md - a code book that describes the variables, the data, and any transformations or work that you performed to clean up the data. It is generated using knitr from R studio from codebook.Rmd together with codebook.html    
 
-3. README.md - this file  
+3. README.md - this file
+
+4. tidydataset.txt - File with the tidy data set created with write.table() using row.name=FALSE by running run_analysis.R script.
    
 Working set of data is not included. It will be downloaded and unzipped when run_analysis.R is executed for the first time. It could obtain from [Human Activity Recognition Using Smartphones](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip)  
 For more information please visit: [Human Activity Recognition Using Smartphones Data Set ](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones)
